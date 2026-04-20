@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bulletin.R
+import com.example.bulletin.adapter.NewsAdapter
 import com.example.bulletin.api.RetrofitInstance
 import com.example.bulletin.databinding.FragmentNewsBinding
 import com.example.bulletin.repository.NewsRepository
@@ -18,6 +20,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     // 1. ViewBinding handle karne ka professional tareeqa
     private var _binding: FragmentNewsBinding? = null
+    private lateinit var newsAdapter: NewsAdapter
     private val binding get() = _binding!!
 
     private lateinit var viewModel: NewsViewModel
@@ -29,8 +32,10 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         _binding = FragmentNewsBinding.bind(view)
         Toast.makeText(context, "Fragment Load Ho Gaya!", Toast.LENGTH_SHORT).show()
         setupViewModel()
-        viewModel.getNews("general","4adafc67d4497fa34fe411f31e57fd53")
+        setupRecyclerView() // Pehle RV setup
         observeData()
+        viewModel.getNews("general","4adafc67d4497fa34fe411f31e57fd53")
+
 
     }
 
@@ -52,6 +57,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                     }
                     is UiState.Success -> {
                         val articles = state.data.articles
+                        newsAdapter.submitList(articles)
                         Toast.makeText(requireContext(), "\"Mubarak ho! ${articles.size} news mil gayin!", android.widget.Toast.LENGTH_SHORT).show()
 
 
@@ -66,6 +72,18 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                     }
                 }
             }
+
+    }
+
+    private fun setupRecyclerView()
+    {
+        newsAdapter = NewsAdapter()
+        binding.rvNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+
 
     }
 
