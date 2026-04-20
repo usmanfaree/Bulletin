@@ -8,29 +8,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.example.bulletin.R
+import com.example.bulletin.api.RetrofitInstance
+import com.example.bulletin.databinding.ActivityMainBinding
+import com.example.bulletin.repository.NewsRepository
+import com.example.bulletin.utils.UiState
+import com.example.bulletin.viewmodels.NewsViewModel
+import com.example.bulletin.viewmodels.NewsViewModelFactory
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        val testTv = findViewById<TextView>(R.id.testTextView)
-        val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        viewModel.newsData.observe(this) { response ->
-            // Bus yeh print karke dekho data aaya ya nahi
-            Log.d("CHECK", "Data Response: ${response.body()?.articles?.get(0)?.title}")
-            testTv.text = "Success: $title"
+        // Navigation graph ko choro, ye line seedha Fragment load karegi
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.newsNavHostFragment, NewsFragment())
+                .commit()
         }
 
-        viewModel.fetchNews("general", "TERI_API_KEY")
 
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 }
