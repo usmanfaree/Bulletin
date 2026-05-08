@@ -1,5 +1,8 @@
 package com.example.bulletin.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 // 1. Main Response Class
 data class NewsResponse(
     val totalArticles: Int,
@@ -7,11 +10,15 @@ data class NewsResponse(
 )
 
 // 2. Article Class (Make sure it's outside or correctly nested)
+@Entity(tableName = "articles")
 data class Article(
-    val title: String,
-    val description: String,
-    val content: String,
+
+    @PrimaryKey
     val url: String,
-    val urlToImage: String,
-    val publishedAt: String
+
+    val title: String?,
+    val description: String?,
+    val content: String?,
+    val urlToImage: String?,
+    val publishedAt: String?
 )

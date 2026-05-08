@@ -1,8 +1,10 @@
 package com.example.bulletin.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.bulletin.model.Article
 import com.example.bulletin.model.NewsResponse
 import com.example.bulletin.repository.NewsRepository
 import com.example.bulletin.utils.UiState
@@ -14,7 +16,7 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
 
 
     val newsData = MutableLiveData<UiState<NewsResponse>>()
-
+    val articles: LiveData<List<Article>> = repository.getdata()
 
     fun getNews(category: String, apiKey: String)
     {
@@ -24,11 +26,13 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
         viewModelScope.launch{
             val result = repository.getBreakingNews(category, apiKey)
             newsData.postValue(result)
-
-
-
         }
-        }
+
+
+
+
+
+    }
 
 
 

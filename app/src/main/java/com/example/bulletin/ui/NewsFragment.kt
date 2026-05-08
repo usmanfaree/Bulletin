@@ -11,6 +11,8 @@ import com.example.bulletin.R
 import com.example.bulletin.adapter.NewsAdapter
 import com.example.bulletin.api.RetrofitInstance
 import com.example.bulletin.databinding.FragmentNewsBinding
+import com.example.bulletin.db.ArticleDao
+import com.example.bulletin.db.NewsDatabase
 import com.example.bulletin.repository.NewsRepository
 import com.example.bulletin.utils.UiState
 import com.example.bulletin.viewmodels.NewsViewModel
@@ -34,16 +36,19 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         setupViewModel()
         setupRecyclerView() // Pehle RV setup
         observeData()
+        //observeSavedArticles()
         viewModel.getNews("general","4adafc67d4497fa34fe411f31e57fd53")
 
 
     }
 
     private fun setupViewModel() {
-        val repository = NewsRepository(RetrofitInstance.apiService)
+        val dao= NewsDatabase.getDatabase(requireContext()).articleDao()
+        val repository = NewsRepository(RetrofitInstance.apiService,  dao )
         val factory = NewsViewModelFactory(repository)
-        // requireActivity() use karna professional hai agar data fragments mein share karna ho
+
         viewModel = ViewModelProvider(requireActivity(), factory)[NewsViewModel::class.java]
+
     }
 
     private fun observeData() {
@@ -68,7 +73,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                     }
                     is UiState.Error -> {
 
-                        android.widget.Toast.makeText(requireContext(), "Data khali aaya hai!", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Data khali aaya hai!", android.widget.Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -86,6 +91,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
 
     }
+
+    private fun observeSavedArticles() {
+        viewModel.articles.observe(viewLifecycleOwner) { articles ->
+            newsAdapter.submitList(articles)
+        }
+    }
+
+
 
     // 3. Sab se important point: Memory Leak se bachna
     override fun onDestroyView() {
