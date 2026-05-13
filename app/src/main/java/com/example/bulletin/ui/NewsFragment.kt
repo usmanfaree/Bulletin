@@ -75,6 +75,12 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
                         Toast.makeText(requireContext(), "Data khali aaya hai!", android.widget.Toast.LENGTH_SHORT).show()
                     }
+                    is UiState.CachedData->
+                    {
+                    newsAdapter.submitList(state.articles)
+
+
+                    }
                 }
             }
 

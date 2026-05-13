@@ -1,5 +1,6 @@
 package com.example.bulletin.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +26,10 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
 
         viewModelScope.launch{
             val result = repository.getBreakingNews(category, apiKey)
+            Log.d("VM_TEST", "Result: $result")
             newsData.postValue(result)
+
+
         }
 
 
