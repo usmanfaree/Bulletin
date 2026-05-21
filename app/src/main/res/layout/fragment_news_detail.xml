@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ARTICLE IMAGE -->
+        <ImageView
+            android:id="@+id/ivDetailImage"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_margin="12dp"
+            android:background="#EAEAEA"
+            android:scaleType="fitCenter" />
+
+        <!-- CONTENT -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="30dp">
+
+            <!-- CATEGORY LABEL -->
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:letterSpacing="0.08"
+                android:text="BREAKING NEWS"
+                android:textAllCaps="true"
+                android:textColor="#D32F2F"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/tvDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="6dp"
+                android:textColor="#111111"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- SOURCE / LINK -->
+            <TextView
+                android:id="@+id/tvDetailUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Published by News Source"
+                android:textColor="#5C6BC0"
+                android:textSize="13sp"
+                android:textStyle="italic" />
+
+            <!-- FULL DIVIDER -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="22dp"
+                android:background="#DDDDDD" />
+
+            <!-- DESCRIPTION -->
+            <TextView
+                android:id="@+id/tvDetailDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="10dp"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+
+            <!-- READ MORE BUTTON -->
+            <Button
+                android:id="@+id/btnReadMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Read Full Article" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -2,6 +2,7 @@ package com.example.bulletin.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.R
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,11 +10,13 @@ import com.bumptech.glide.Glide
 import com.example.bulletin.databinding.ItemNewsBinding
 import com.example.bulletin.model.Article
 
-class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DiffCallback()) {
+class NewsAdapter(
+    private val onItemClick: (Article) -> Unit
+) : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val binding = ItemNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ArticleViewHolder(binding)
+        return ArticleViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
@@ -21,18 +24,25 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.ArticleViewHolder>(DiffCall
         holder.bind(article)
     }
 
-    class ArticleViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ArticleViewHolder(
+        private val binding: ItemNewsBinding,
+        private val onItemClick: (Article) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(article: Article) {
             binding.apply {
                 tvTitle.text = article.title
                 tvDescription.text = article.description
                 tvSource.text = article.description
 
-                // Glide image loading with a placeholder
+                root.setOnClickListener {
+                    onItemClick(article)
+                }
+
                 Glide.with(root.context)
                     .load(article.urlToImage)
                     .placeholder(android.R.drawable.progress_horizontal)
-                    .error(android.R.drawable.stat_notify_error)
+                    .error(com.example.bulletin.R.drawable.news)
                     .into(ivArticleImage)
             }
         }
