@@ -38,6 +38,21 @@ class NewsViewModelTest {
         viewModel = NewsViewModel(repository)
     }
 
+
+    @Test
+    fun test_loading_state() = runTest {
+
+        coEvery {
+            repository.getBreakingNews(any(), any())
+        } returns UiState.Loading
+
+        viewModel.getNews("general", "key")
+
+        val result = viewModel.newsData.value
+
+        assertTrue(result is UiState.Loading)
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
