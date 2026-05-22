@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.devtools.ksp")
+
+
+
 }
 
 android {
@@ -64,4 +67,10 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     ksp("androidx.room:room-compiler:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
 }

@@ -26,7 +26,7 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
 
         viewModelScope.launch{
             val result = repository.getBreakingNews(category, apiKey)
-            Log.d("VM_TEST", "Result: $result")
+
             newsData.postValue(result)
 
 
