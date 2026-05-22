@@ -53,6 +53,22 @@ class NewsViewModelTest {
         assertTrue(result is UiState.Loading)
     }
 
+
+
+    @Test
+    fun test_error_state() = runTest {
+
+        coEvery {
+            repository.getBreakingNews(any(), any())
+        } returns UiState.Error("Something went wrong")
+
+        viewModel.getNews("general", "key")
+        testDispatcher.scheduler.advanceUntilIdle()
+        val result = viewModel.newsData.value
+
+        assertTrue(result is UiState.Error)
+    }
+
     @After
     fun tearDown() {
         Dispatchers.resetMain()
