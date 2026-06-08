@@ -1,6 +1,5 @@
 package com.example.bulletin.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.bulletin.api.NewsService
 import com.example.bulletin.db.ArticleDao
@@ -17,14 +16,13 @@ class NewsRepository(private val apiService: NewsService,private val dao: Articl
         return try
         {
             val response = apiService.getBreakingNews(category, "en", apiKey)
-            if (response.isSuccessful && response.body() != null)
-            {
+            val body = response.body()
 
-                val articles = response.body()!!.articles
-                insertfun(articles)
+            if (response.isSuccessful && body != null) {
 
+                insertArticles(body.articles)
 
-                UiState.Success(response.body()!!)
+                UiState.Success(body)
             }
             else
             {
@@ -42,29 +40,29 @@ class NewsRepository(private val apiService: NewsService,private val dao: Articl
 
         {
 
-            val RoomData=dao.getArticlesOnce()
-            if (RoomData.isNotEmpty()) {
-                Log.d("ROOM_CHECK", "Saved data: ${RoomData.size}")
-                UiState.CachedData(RoomData)
+            val roomData=dao.getArticlesOnce()
+            if (roomData.isNotEmpty()) {
+
+                UiState.CachedData(roomData)
 
             } else {
                 UiState.Error("Failure: ${e.localizedMessage ?: "Unknown Error"}")
             }
 
-            //Log.d("ROOM_CHECK", "Saved data: ${RoomData.size}")
+
 
         }
 
 
     }
 
-    suspend fun insertfun(article: List<Article>)
+    suspend fun insertArticles(article: List<Article>)
     {
 
         dao.insert(article)
 
     }
-    fun getdata(): LiveData<List<Article>>
+    fun getSavedArticles(): LiveData<List<Article>>
     {
 
         return dao.getArticle()

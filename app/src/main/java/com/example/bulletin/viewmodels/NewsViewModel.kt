@@ -1,6 +1,5 @@
 package com.example.bulletin.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,12 +16,12 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
 
 
     val newsData = MutableLiveData<UiState<NewsResponse>>()
-    val articles: LiveData<List<Article>> = repository.getdata()
+
 
     fun getNews(category: String, apiKey: String)
     {
 
-        newsData.postValue(UiState.Loading)//to show loading bar on screen
+        newsData.postValue(UiState.Loading)
 
         viewModelScope.launch{
             val result = repository.getBreakingNews(category, apiKey)
@@ -41,7 +40,7 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel()
 
 
 
-    }//end of function getNews
+    }
 
 
 

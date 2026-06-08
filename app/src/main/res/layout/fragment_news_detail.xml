@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ARTICLE IMAGE -->
+
         <ImageView
             android:id="@+id/ivDetailImage"
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:background="#EAEAEA"
             android:scaleType="fitCenter" />
 
-        <!-- CONTENT -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="30dp">
 
-            <!-- CATEGORY LABEL -->
+
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <!-- TITLE -->
+
             <TextView
                 android:id="@+id/tvDetailTitle"
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <!-- SOURCE / LINK -->
+
             <TextView
                 android:id="@+id/tvDetailUrl"
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:textSize="13sp"
                 android:textStyle="italic" />
 
-            <!-- FULL DIVIDER -->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -72,7 +72,7 @@
                 android:layout_marginBottom="22dp"
                 android:background="#DDDDDD" />
 
-            <!-- DESCRIPTION -->
+
             <TextView
                 android:id="@+id/tvDetailDescription"
                 android:layout_width="match_parent"
@@ -82,7 +82,7 @@
                 android:textColor="#333333"
                 android:textSize="18sp" />
 
-            <!-- READ MORE BUTTON -->
+
             <Button
                 android:id="@+id/btnReadMore"
                 android:layout_width="wrap_content"

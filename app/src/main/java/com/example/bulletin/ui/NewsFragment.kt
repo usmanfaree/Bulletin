@@ -22,6 +22,16 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
+    companion object {
+        private const val CATEGORY_GENERAL = "general"
+        const val KEY_TITLE = "title"
+        const val KEY_DESCRIPTION = "description"
+        const val KEY_IMAGE = "image"
+        const val KEY_URL = "url"
+
+    }
+
+
 
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var viewModel: NewsViewModel
@@ -32,11 +42,11 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         _binding = FragmentNewsBinding.bind(view)
 
         setupViewModel()
-        setupRecyclerView()
+        initRecyclerView()
         observeData()
 
         viewModel.getNews(
-            "general",
+            CATEGORY_GENERAL,
             "4adafc67d4497fa34fe411f31e57fd53"
         )
     }
@@ -52,19 +62,19 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         val factory = NewsViewModelFactory(repository)
 
         viewModel = ViewModelProvider(
-            requireActivity(),
+            this,
             factory
         )[NewsViewModel::class.java]
     }
 
-    private fun setupRecyclerView() {
+    private fun initRecyclerView() {
         newsAdapter = NewsAdapter { article ->
 
             val bundle = Bundle().apply {
-                putString("title", article.title)
-                putString("description", article.description)
-                putString("image", article.urlToImage)
-                putString("url", article.url)
+                putString(KEY_TITLE, article.title)
+                putString(KEY_DESCRIPTION, article.description)
+                putString(KEY_IMAGE, article.urlToImage)
+                putString(KEY_URL, article.url)
             }
 
             findNavController().navigate(
@@ -92,13 +102,13 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                     val articles = state.data.articles
                     newsAdapter.submitList(articles)
 
-                    Log.d("FRAGMENT_LOG", "API articles: ${articles.size}")
+
                 }
 
                 is UiState.CachedData -> {
                     newsAdapter.submitList(state.articles)
 
-                    Log.d("FRAGMENT_LOG", "Cached articles: ${state.articles.size}")
+
                 }
 
                 is UiState.Error -> {

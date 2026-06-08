@@ -1,16 +1,36 @@
 package com.example.bulletin.api
 
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
 
-    private val retrofit by lazy {
+    private const val BASE_URL = "https://gnews.io/api/v4/"
+
+    // Logging (ONLY for debug builds ideally)
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://gnews.io/api/v4/")
+            .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
     }
-    val apiService = retrofit.create(NewsService::class.java)
+
+    val apiService: NewsService by lazy {
+        retrofit.create(NewsService::class.java)
+    }
 }

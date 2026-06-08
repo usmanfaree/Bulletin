@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+
+
     id("com.google.devtools.ksp")
 
 
@@ -15,6 +17,7 @@ android {
 
         buildFeatures {
             viewBinding = true
+            buildConfig = true
         } }
 
     defaultConfig {
@@ -25,6 +28,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+
+        buildConfigField(
+            "String",
+            "NEWS_API_KEY",
+            "\"4adafc67d4497fa34fe411f31e57fd53\""
+        )
     }
 
     buildTypes {
@@ -40,8 +51,8 @@ android {
 
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -67,7 +78,7 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     ksp("androidx.room:room-compiler:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
     testImplementation("io.mockk:mockk:1.13.10")
