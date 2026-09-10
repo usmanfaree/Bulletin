@@ -17,7 +17,9 @@ import com.example.bulletin.repository.NewsRepository
 import com.example.bulletin.utils.UiState
 import com.example.bulletin.viewmodels.NewsViewModel
 import com.example.bulletin.viewmodels.NewsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private var _binding: FragmentNewsBinding? = null

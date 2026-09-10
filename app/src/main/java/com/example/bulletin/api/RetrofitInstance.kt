@@ -11,7 +11,7 @@ object RetrofitInstance {
 
     private const val BASE_URL = "https://gnews.io/api/v4/"
 
-    // Logging (ONLY for debug builds ideally)
+
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
