@@ -7,7 +7,7 @@ import com.example.bulletin.R
 import com.example.bulletin.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
