@@ -8,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.bulletin.model.NewsResponse
 import com.example.bulletin.repository.NewsRepository
 import com.example.bulletin.utils.UiState
-import dagger.hilt.android.lifecycle.HiltViewModel // 👈 Import HiltViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject // 👈 Import Inject
+import javax.inject.Inject
 
-@HiltViewModel // 👈 1. Hilt ko batata hai ke yeh ViewModel hai
-class NewsViewModel @Inject constructor( // 👈 2. Repository auto-inject karne ke liye
+@HiltViewModel
+class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : ViewModel() {
 

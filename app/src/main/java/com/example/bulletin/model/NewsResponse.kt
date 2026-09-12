@@ -3,7 +3,7 @@ package com.example.bulletin.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-// 1. Main Response Class
+
 data class NewsResponse(
     val totalArticles: Int,
     val articles: List<Article>

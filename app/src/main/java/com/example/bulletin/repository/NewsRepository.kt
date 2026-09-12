@@ -6,15 +6,15 @@ import com.example.bulletin.db.ArticleDao
 import com.example.bulletin.model.Article
 import com.example.bulletin.model.NewsResponse
 import com.example.bulletin.utils.UiState
-import javax.inject.Inject // 👈 1. YEH IMPORT ZAROORI HAI
+import javax.inject.Inject
 
-// 👈 2. SIRF YAHAN @Inject constructor LAGAEN
+
 class NewsRepository @Inject constructor(
     private val apiService: NewsService,
     private val dao: ArticleDao
 ) {
 
-    // 👇 AAP KA POORA LOGIC SAME WAISA HI RAHEGA (KOI CHANGE NAHI)
+
     suspend fun getBreakingNews(category: String, apiKey: String): UiState<NewsResponse> {
         return try {
             val response = apiService.getBreakingNews(category, "en", apiKey)
@@ -23,7 +23,9 @@ class NewsRepository @Inject constructor(
             if (response.isSuccessful && body != null) {
                 insertArticles(body.articles)
                 UiState.Success(body)
-            } else {
+            }
+            else
+            {
                 val savedData = dao.getArticlesOnce()
                 if (savedData.isNotEmpty()) {
                     UiState.CachedData(savedData)

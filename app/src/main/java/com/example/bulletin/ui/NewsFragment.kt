@@ -5,18 +5,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bulletin.R
 import com.example.bulletin.adapter.NewsAdapter
-import com.example.bulletin.api.RetrofitInstance
 import com.example.bulletin.databinding.FragmentNewsBinding
-import com.example.bulletin.db.NewsDatabase
-import com.example.bulletin.repository.NewsRepository
 import com.example.bulletin.utils.UiState
 import com.example.bulletin.viewmodels.NewsViewModel
-import com.example.bulletin.viewmodels.NewsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,14 +32,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
 
     private lateinit var newsAdapter: NewsAdapter
-    private lateinit var viewModel: NewsViewModel
+    private val viewModel: NewsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentNewsBinding.bind(view)
 
-        setupViewModel()
+        //setupViewModel()
         initRecyclerView()
         observeData()
 
@@ -53,21 +49,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         )
     }
 
-    private fun setupViewModel() {
-        val dao = NewsDatabase.getDatabase(requireContext()).articleDao()
 
-        val repository = NewsRepository(
-            RetrofitInstance.apiService,
-            dao
-        )
-
-        val factory = NewsViewModelFactory(repository)
-
-        viewModel = ViewModelProvider(
-            this,
-            factory
-        )[NewsViewModel::class.java]
-    }
 
     private fun initRecyclerView() {
         newsAdapter = NewsAdapter { article ->
