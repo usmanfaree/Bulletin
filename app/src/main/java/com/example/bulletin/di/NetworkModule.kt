@@ -22,7 +22,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://gnews.io/api/v4/")
+            .baseUrl("https://gnews.io/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

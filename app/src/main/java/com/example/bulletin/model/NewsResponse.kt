@@ -2,6 +2,7 @@ package com.example.bulletin.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 
 data class NewsResponse(
@@ -18,6 +19,7 @@ data class Article(
     val title: String?,
     val description: String?,
     val content: String?,
+    @SerializedName("image")
     val urlToImage: String?,
     val publishedAt: String?
 )

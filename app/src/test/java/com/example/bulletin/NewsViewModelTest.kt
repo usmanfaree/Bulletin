@@ -3,7 +3,6 @@ package com.example.bulletin
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.bulletin.model.NewsResponse
 import com.example.bulletin.repository.NewsRepository
-import com.example.bulletin.utils.UiState
 import com.example.bulletin.viewmodels.NewsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk

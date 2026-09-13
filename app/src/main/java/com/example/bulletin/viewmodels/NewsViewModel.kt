@@ -1,14 +1,13 @@
-
-
 package com.example.bulletin.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bulletin.model.NewsResponse
+import com.example.bulletin.model.Article
 import com.example.bulletin.repository.NewsRepository
-import com.example.bulletin.utils.UiState
+import com.example.bulletin.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,15 +16,15 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : ViewModel() {
 
-    val newsData = MutableLiveData<UiState<NewsResponse>>()
+
+    private val _newsState = MutableStateFlow<Resource<List<Article>>>(Resource.Loading())
+    val newsState: StateFlow<Resource<List<Article>>> = _newsState
 
     fun getNews(category: String, apiKey: String) {
-        newsData.postValue(UiState.Loading)
-
         viewModelScope.launch {
-            val result = repository.getBreakingNews(category, apiKey)
-            newsData.postValue(result)
+            repository.getBreakingNews(category, apiKey).collect { resource ->
+                _newsState.value = resource
+            }
         }
     }
 }
-

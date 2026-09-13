@@ -1,53 +1,41 @@
 package com.example.bulletin.repository
 
-import androidx.lifecycle.LiveData
 import com.example.bulletin.api.NewsService
 import com.example.bulletin.db.ArticleDao
 import com.example.bulletin.model.Article
-import com.example.bulletin.model.NewsResponse
-import com.example.bulletin.utils.UiState
+import com.example.bulletin.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-
 
 class NewsRepository @Inject constructor(
     private val apiService: NewsService,
     private val dao: ArticleDao
 ) {
 
+    fun getBreakingNews(category: String, apiKey: String): Flow<Resource<List<Article>>> = flow {
+        emit(Resource.Loading())
 
-    suspend fun getBreakingNews(category: String, apiKey: String): UiState<NewsResponse> {
-        return try {
+        try {
             val response = apiService.getBreakingNews(category, "en", apiKey)
             val body = response.body()
 
             if (response.isSuccessful && body != null) {
-                insertArticles(body.articles)
-                UiState.Success(body)
-            }
-            else
-            {
-                val savedData = dao.getArticlesOnce()
-                if (savedData.isNotEmpty()) {
-                    UiState.CachedData(savedData)
-                } else {
-                    UiState.Error("Server Error: ${response.code()} ${response.message()}")
-                }
+                dao.insert(body.articles)
+            } else {
+                emit(Resource.Error("Server Error: ${response.code()} ${response.message()}"))
             }
         } catch (e: Exception) {
-            val roomData = dao.getArticlesOnce()
-            if (roomData.isNotEmpty()) {
-                UiState.CachedData(roomData)
-            } else {
-                UiState.Error("Failure: ${e.localizedMessage ?: "Unknown Error"}")
-            }
+            emit(Resource.Error("Network Error: ${e.localizedMessage ?: "Unable to fetch online news"}"))
         }
-    }
 
-    suspend fun insertArticles(article: List<Article>) {
-        dao.insert(article)
-    }
 
-    fun getSavedArticles(): LiveData<List<Article>> {
-        return dao.getArticle()
+        val dbStream = dao.getArticles().map { cachedArticles ->
+            Resource.Success(cachedArticles)
+        }
+
+        emitAll(dbStream)
     }
 }
