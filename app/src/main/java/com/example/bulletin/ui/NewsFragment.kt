@@ -77,15 +77,18 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 viewModel.newsState.collect { resource ->
                     when (resource) {
                         is Resource.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
                             Log.d("FRAGMENT_LOG", "Loading...")
                         }
 
                         is Resource.Success -> {
+                            binding.progressBar.visibility = View.GONE
                             val articles = resource.data ?: emptyList()
                             newsAdapter.submitList(articles)
                         }
 
                         is Resource.Error -> {
+                            binding.progressBar.visibility = View.GONE
                             resource.data?.let { cachedArticles ->
                                 newsAdapter.submitList(cachedArticles)
                             }
