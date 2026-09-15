@@ -1,50 +1,60 @@
-# Bulletin News App (Android)
+# 📰 Bulletin - Modern Offline-First News App
 
-Android news application built using MVVM architecture.  
-The app fetches latest news from a REST API and displays them in a list with offline caching support using Room Database.
-
----
-
-## Features
-
-- Fetch news from REST API (Retrofit)
-- Display news in RecyclerView
-- News detail screen
-- Offline caching using Room Database
-- MVVM architecture (ViewModel + Repository)
-- Loading, success, and error state handling
-- Unit testing for ViewModel
+A modern Android application built to demonstrate Clean Architecture and Modern Android Development (MAD) practices. The project showcases an Offline-First Architecture following Single Source of Truth (SSOT) principles with reactive data streams.
 
 ---
 
-## Tech Stack
+## 🚀 Key Features & Highlights
 
-- Kotlin
-- MVVM Architecture
-- Retrofit
-- Room Database
-- RecyclerView (ListAdapter + DiffUtil)
-- LiveData & ViewModel
-- Glide
-- JUnit + MockK (Testing)
+- **Offline-First Experience:** Seamless offline usability by caching news articles locally using Room Database.
+- **Single Source of Truth (SSOT):** Reactive data pipeline using Kotlin Flow and emitAll to auto-synchronize the UI with database updates.
+- **Reactive UI State Management:** UI reacts directly to StateFlow updates emitted by the ViewModel.
+- **Network Resilience:** Graceful loading, success, and fallback error state handling with visual indicators.
+- **Clean Navigation:** Smooth screen transitions using Android Jetpack Navigation components.
 
 ---
 
-## Architecture Flow
+## 🏗️ Architecture & Tech Stack
 
-UI (Fragment)
-→ ViewModel
-→ Repository
-→ Retrofit / Room
+The app adheres strictly to Google's Recommended Android Architecture Guide (Clean Architecture + MVVM).
+
+[ UI Layer (Fragment / ViewBinding) ]
+│  ▲ (StateFlow)
+▼  │
+[ ViewModel (UI Logic & Scope) ]
+│  ▲ (Flow / Resource)
+▼  │
+[ Repository Layer (Offline-First Logic) ]
+│                        │
+▼                        ▼
+[ Retrofit (Remote API) ]   [ Room Database (SSOT) ]
+
+### Tech Stack Specifications
+
+- **Language:** Kotlin 100%
+- **Architecture:** MVVM (Model-View-ViewModel) + Repository Pattern
+- **Dependency Injection:** Dagger Hilt
+- **Async & Reactive Streams:** Kotlin Coroutines & Flow / StateFlow
+- **Local Persistence:** Room Database
+- **Networking:** Retrofit 2 + Gson Converter
+- **UI Components:** ViewBinding, ConstraintLayout, RecyclerView (ListAdapter + DiffUtil), Jetpack Navigation
 
 ---
 
-## Offline Support
+## 🛠️ Data Flow Pipeline
 
-If API fails, cached data from Room database is shown.
+1. **Trigger:** NewsFragment requests data via NewsViewModel using lifecycleScope.
+2. **Repository Flow:**
+    - Emits Resource.Loading() state to show progress bar.
+    - Fetches fresh data from Retrofit REST API.
+    - Caches response inside Room DB.
+    - Emits live updates to UI using emitAll(newsDao.getArticles()).
+3. **Fallback:** If network request fails, cached data from Room DB is preserved and displayed alongside error states.
 
 ---
 
-## Note
+## ⚙️ Setup & Installation
 
-This project was built for learning Android development and practicing real-world architecture patterns.
+1. Clone the repository
+2. Open the project in Android Studio
+3. Build and run the app on an Emulator or physical device
