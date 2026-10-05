@@ -1,5 +1,6 @@
 package com.example.bulletin.repository
 
+import android.util.Log
 import com.example.bulletin.api.NewsService
 import com.example.bulletin.db.ArticleDao
 import com.example.bulletin.model.Article
@@ -23,7 +24,11 @@ class NewsRepository @Inject constructor(
             val body = response.body()
 
             if (response.isSuccessful && body != null) {
-                dao.insert(body.articles)
+                val validArticles = body.articles.filter { article ->
+                    !article.urlToImage.isNullOrBlank()
+                }
+                dao.clearAllArticles()
+                dao.insert(validArticles)
             } else {
                 emit(Resource.Error("Server Error: ${response.code()} ${response.message()}"))
             }

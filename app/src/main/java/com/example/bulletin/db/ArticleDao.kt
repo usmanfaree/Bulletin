@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.bulletin.model.Article
 import kotlinx.coroutines.flow.Flow
 
@@ -19,4 +20,10 @@ interface ArticleDao {
 
     @Query("SELECT * FROM articles")
     fun getArticles(): Flow<List<Article>>
-}
+
+
+    @Query("DELETE FROM articles")
+    suspend fun clearAllArticles()
+
+
+   }
