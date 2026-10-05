@@ -32,7 +32,7 @@ class NewsAdapter(
             binding.apply {
                 tvTitle.text = article.title
                 tvDescription.text = article.description
-                tvSource.text = article.description
+                //tvSource.text = article.description
 
                 root.setOnClickListener {
                     onItemClick(article)

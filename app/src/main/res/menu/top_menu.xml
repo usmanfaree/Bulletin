@@ -7,19 +7,17 @@
         android:id="@+id/action_search"
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
+
         app:showAsAction="ifRoom" />
 
     <!-- REFRESH -->
-    <item
-        android:id="@+id/action_refresh"
-        android:title="Refresh"
-        android:icon="@android:drawable/ic_popup_sync"
-        app:showAsAction="ifRoom" />
+
 
     <!-- MORE OPTIONS -->
     <item
         android:id="@+id/action_more"
         android:title="More"
+
         app:showAsAction="never" />
 
 </menu>

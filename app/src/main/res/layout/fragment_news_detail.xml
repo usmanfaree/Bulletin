@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:fillViewport="true">
 
@@ -83,12 +84,7 @@
                 android:textSize="18sp" />
 
 
-            <Button
-                android:id="@+id/btnReadMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="Read Full Article" />
+
 
         </LinearLayout>
 
